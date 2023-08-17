@@ -16,3 +16,8 @@ Spotify Project - Allow Users to
 
 +Journal Entry 08/17/2023
 -Colorstack Summit
+-Created Librosa Spectrogram Graphs with Time as X-Axis
+-Loaded files (Bruno Mars Silk Sonic Intro, Kali Uchis After the Storm)
+-Installed Seaborn and Pandas through Anaconda Command Prompt
+-Created a Copy and Paste Sheet for Code
+-Syntax Study of Audio_Analyzer Project on GitHub
