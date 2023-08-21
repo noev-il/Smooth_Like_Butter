@@ -6,6 +6,10 @@ Spotify Project - Allow Users to
 4. Choose what genre they'd like to focus on
 5. Create a playlist with songs that transition into each other
 
+Project Tools = 
+Code Set: Python, SQL (Data Storage), JSON (Porting)
+Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons), Librosa (Spectogram), Pandas (Data Analysis)
+
 
 +Journal Entry 08/16/2023
 -Downloaded Spyder
@@ -21,3 +25,9 @@ Spotify Project - Allow Users to
 -Installed Seaborn and Pandas through Anaconda Command Prompt
 -Created a Copy and Paste Sheet for Code
 -Syntax Study of Audio_Analyzer Project on GitHub
+
++Journal Entry 08/21/2023
+-Review Project Roadmap
+-Visualize Roadmap (FIGMA)
+-Import Roadmap to Github
+-Update Calendar with To do, In Progress, Finished Tags on CHecklist
