@@ -1,0 +1,16 @@
+For Spotify ID - 
+Find a song
+Right Click it
+Copy Song URL - Should look like this (https://open.spotify.com/track/1otG6j1WHNvl9WgXLWkHTo?si=0dc1bcea603441b3)
+Remove Everything before ...track/ and everything after ...WkHTo - Should be left with1otG6j1WHNvl9WgXLWkHTo (22 Characters)
+
+For Audio Anaylsis - 
+URL is this - "https://api.spotify.com/v1/audio-analysis/Song_ID_Goes_Here"
+
+Import - 
+NPM Requests
+Json
+
+
+For Access Token - 
+Script created in Visual Studio JavaScrip called "Access_Token_Get"
