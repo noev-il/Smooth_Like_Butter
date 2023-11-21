@@ -37,3 +37,7 @@ Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons)
 -Booted Spyder
 -Imported Project Files onto Local Drives
 -Cleared Disk Space
+
++Journal Entry 11/21/2023
+-Created Working Python Code to Send Request to Spotify API for Song Analysis
+-Used JavaScript in VSCODE and Python in Anaconda/Spyder
