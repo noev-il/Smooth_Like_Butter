@@ -31,3 +31,9 @@ Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons)
 -Visualize Roadmap (FIGMA)
 -Import Roadmap to Github
 -Update Calendar with To do, In Progress, Finished Tags on CHecklist
+
++Joural Entry 11/21/2023
+-Imported Anaconda on Home Desktop
+-Booted Spyder
+-Imported Project Files onto Local Drives
+-Cleared Disk Space
