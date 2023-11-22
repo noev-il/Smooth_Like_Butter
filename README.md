@@ -41,3 +41,7 @@ Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons)
 +Journal Entry 11/21/2023
 -Created Working Python Code to Send Request to Spotify API for Song Analysis
 -Used JavaScript in VSCODE and Python in Anaconda/Spyder
+
++Journal Entry 11/22/203 
+-Updated Code to Take User Input of Song URL, Ask for File Name, and Return a JSON File of Song Analysis
+-Created a JSON File parser to count the amount of segments in JSON file (in python)
