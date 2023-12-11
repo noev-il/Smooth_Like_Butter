@@ -45,3 +45,9 @@ Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons)
 +Journal Entry 11/22/203 
 -Updated Code to Take User Input of Song URL, Ask for File Name, and Return a JSON File of Song Analysis
 -Created a JSON File parser to count the amount of segments in JSON file (in python)
+
++Journal Entry 12/10/2023
+-Project has hit major headway
+-Create a individualzed way to grab columbs within the 'section' tabe and create tensors
+-PYTORCH, SKLEARN, PANDAS, NUMPY, all were used
+Files have been pushed to github.
