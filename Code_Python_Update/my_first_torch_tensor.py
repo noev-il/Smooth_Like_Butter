@@ -44,13 +44,13 @@ file_new = [r'/Users/aux/Downloads/Mac_Storage/JSON Packages/A1_Silk_Sonic_Intro
             r'/Users/aux/Downloads/Mac_Storage/JSON Packages/O2_Patience_Lil_Uzi_Vert.json']
 
 
-with open(file_new[0], 'r') as f:
+with open(file_new[-1], 'r') as f:
     A1 = json.loads(f.read())
     
 section_A1 = (A1['sections'])
 A1_Data = pd.DataFrame(section_A1)
 A1_section_cleaned = pd.json_normalize(A1_Data['loudness'])
-print(A1_Data['loudness'])
+print(A1_Data)
 
 ##################play new juice world aaaaaaaaaa
 
@@ -58,6 +58,7 @@ print(A1_Data['loudness'])
 DATA_FRAME = []
 tensors = []
 Dictionary = {'start': [], 'duration': [], 'confidence': [], 'loudness': [], 'tempo': [], 'tempo_confidence': [], 'key': [], 'key_confidence': [], 'mode': [], 'mode_confidence': [], 'time_signature': [], 'time_signature_confidence': []}
+new_tensor = None 
 for x in range(len(file_new)):
     with open(file_new[x], 'r') as f:
         sections = json.loads(f.read())
@@ -79,10 +80,21 @@ for x in range(len(file_new)):
     Dictionary['mode_confidence'] += [torch.tensor(DATA_FRAME[x]['mode_confidence'].values)]
     Dictionary['time_signature'] += [torch.tensor(DATA_FRAME[x]['time_signature'].values)]
     Dictionary['time_signature_confidence'] += [torch.tensor(DATA_FRAME[x]['time_signature_confidence'].values)]
-    
+    for y in range(len(DATA_FRAME[x])):
+        new_tensor = (DATA_FRAME[x]['start'][y], DATA_FRAME[x]['loudness'][y], DATA_FRAME[x]['tempo'][y], DATA_FRAME[x]['key'][y], DATA_FRAME[x]['mode'][y])
+        new_tensor_real = torch.tensor(new_tensor)
 ###coding master mind boii
 ###################tensor turning into pairs
-print(Dictionary['loudness'])
+##print(Dictionary['loudness'][0])
+###print(new_tensor_real)
+print(new_tensor_real)
+
+
+    
+
+
+
+
 
     
         
