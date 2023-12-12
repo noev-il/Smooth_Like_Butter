@@ -122,9 +122,15 @@ distanceM1_M2 = [torch.sqrt(torch.sum(torch.pow(torch.subtract(Song_Tensor['9M1_
 
 distanceN1_N2 = [torch.sqrt(torch.sum(torch.pow(torch.subtract(Song_Tensor['9N1_Girls_Want_Girls_Drake'], Song_Tensor['0N2_Life_Is_Good_Drake']), 2), dim=0))]
 
-distanceO1_O2 = [torch.sqrt(torch.sum(torch.pow(torch.subtract(Song_Tensor['19O1_Real_Kendrick'], Song_Tensor['0O2_Patience_Lil_Uzi_Vert']), 2), dim=0))]
+distanceO1_O2 = [torch.sqrt(torch.sum(torch.pow(torch.subtract(Song_Tensor['19O1_Real_Kendrick'], Song_Tensor['0O2_Patience_Lil_Uzi_Vert']), 2), dim=0))] 
 
 
 new_list = [min(distanceA1_A2), distanceB1_B2, distanceC1_C2, distanceD1_D2, distanceE1_E2, distanceF1_F2, distanceG1_G2, distanceH1_H2, distanceI1_I2, distanceJ1_J2, distanceK1_K2, distanceL1_L2, distanceM1_M2, distanceN1_N2, distanceO1_O2]
-print(len(new_list))
+print(new_list)
+        ########################################
+        ###AI_DJ+###
         
+        
+                   
+
+
