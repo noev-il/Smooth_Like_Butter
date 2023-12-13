@@ -1,3 +1,4 @@
+
 import base64
 import requests
 
@@ -98,14 +99,45 @@ class tensor_creator:
             new_tensor = (DATA_FRAME[1]['loudness'][z], DATA_FRAME[1]['tempo'][z], DATA_FRAME[1]['key'][z], DATA_FRAME[1]['mode'][z])
             new_tensor_real = torch.tensor(new_tensor)
             Song_Tensor_1 += [new_tensor_real]
-        distanceA1_A2 = []
-        distanceA1_A2 += [torch.sqrt(torch.sum(torch.pow(torch.subtract(Song_Tensor[-1], Song_Tensor_1[0]), 2), dim=0))]
-        return distanceA1_A2
-tc_1 = tensor_creator('https://open.spotify.com/track/01JMnRUs2YOK6DDpdQASGY?si=3895052dec1244e8', 'https://open.spotify.com/track/01JMnRUs2YOK6DDpdQASGY?si=3895052dec1244e8')
-tc_2 = tensor_creator('https://open.spotify.com/track/2U5cq89GCnsR1yixKkC8d5?si=2b0ec96cd8104c7d', 'https://open.spotify.com/track/7IpshETtrXEUGD4z2485R9?si=5de6f693b4824638')
-tc_3 = tensor_creator('https://open.spotify.com/track/2HHLfzE7PkljuqyYU4vwmh?si=e5e1db82489b4b62', 'https://open.spotify.com/track/6gxKUmycQX7uyMwJcweFjp?si=b0838403b1844686')
+        distanceA1_A2 = torch.sqrt(torch.sum(torch.pow(torch.subtract(Song_Tensor[-1], Song_Tensor_1[0]), 2), dim=0))
+        self.distanceA1_A2 = (distanceA1_A2)
+    
+    def segment_analyzer(self):
+        return_value = {"Song_1": None, "Song_2": None}
+        segment_1 = self.analysis_1['segments']
+        segment_2 = self.analysis_2['segments']
+        
+        DATA_FRAME_1 = [pd.DataFrame(segment_1[:15])]
+        pitches_1 = []
+        timbre_1 = []
+        pitches_2 = []
+        timbre_2 = []
+        DATA_FRAME_2 = [pd.DataFrame(segment_2[-15:])]
+        DATA_FRAME_1[0].columns = ['start', 'duration', 'confidence', "loudness_start", "loudness_max_time", "loudness_max", "loudness_end", "pitches", "timbre"]
+        DATA_FRAME_2[0].columns = ['start', 'duration', 'confidence', "loudness_start", "loudness_max_time", "loudness_max", "loudness_end", "pitches", "timbre"]
+        ###return DATA_FRAME_1[0]['pitches'][-1]
+        for p in range(12):
+            pitches_1 += [torch.tensor(DATA_FRAME_1[0]['pitches'][p])] 
+            pitches_2 += [torch.tensor(DATA_FRAME_2[0]['pitches'][p])] 
+        for t in range(12):
+            timbre_1 += [torch.tensor(DATA_FRAME_1[0]['timbre'][t])] 
+            timbre_2 += [torch.tensor(DATA_FRAME_2[0]['timbre'][t])] 
+        pitches_dist = []
+        timbres_dist =  []
+        for g in range(12):
+            pitches_dist += [torch.sqrt(torch.sum(torch.pow(torch.subtract(pitches_1[g], pitches_2[g]), 2), dim=0))]
+            timbres_dist += [torch.sqrt(torch.sum(torch.pow(torch.subtract(timbre_1[g], timbre_2[g]), 2), dim=0))]
+        tensor_values_p = [tensor.item() for tensor in pitches_dist]
+        tensor_values_t = [tensor.item() for tensor in timbres_dist]
+        average_p = torch.tensor(tensor_values_p).mean()
+        average_t = torch.tensor(tensor_values_t).mean()
+        return self.distanceA1_A2.item(), average_p.item(), average_t.item()
+tc_1 = tensor_creator('https://open.spotify.com/track/4K09vJ27xCOreumtSuU6Ao?si=91c7ad440b0349c9', 'https://open.spotify.com/track/1otG6j1WHNvl9WgXLWkHTo?si=c13240ae95c34160')
+tc_2 = tensor_creator('https://open.spotify.com/track/3Qa944OTMZkg8DHjET8JQv?si=55a3c9a0cb664687', 'https://open.spotify.com/track/19QKaApDINxlRSKX3w1xSB?si=a36bfc08f5284519')
+tc_3 = tensor_creator('https://open.spotify.com/track/4XDpeWqPADoWRKcUY3dC84?si=f4252385239d4ac6', 'https://open.spotify.com/track/47gzGfR4JfKC6aT5lM0wpn?si=8099e1f4cb2f4293')
 
-##tc_4 = tensor_creator('', '') 
+
+{##tc_4 = tensor_creator('', '') 
 ##tc_5 = tensor_creator('', '') 
 ####tc_6 = tensor_creator('', '') 
 ##tc_7 = tensor_creator('', '') 
@@ -116,8 +148,122 @@ tc_3 = tensor_creator('https://open.spotify.com/track/2HHLfzE7PkljuqyYU4vwmh?si=
 ##tc_12 = tensor_creator('', '') 
 ##tc_13 = tensor_creator('', '') 
 ##tc_14 = tensor_creator('', '') 
-print(tc_1.make_tensor(), tc_2.make_tensor(), tc_3.make_tensor())
-            
-            
-            
-            
+###print(tc_1.make_tensor(), tc_2.make_tensor(), tc_3.make_tensor())
+}
+##tc_1.make_tensor()
+##check = tc_1.segment_analyzer()
+##print(check)
+
+good_transitions = [
+    "https://open.spotify.com/track/4K09vJ27xCOreumtSuU6Ao?si=7bf160671b854579",
+    "https://open.spotify.com/track/1otG6j1WHNvl9WgXLWkHTo?si=a3575a900f3a4c6d",
+    "https://open.spotify.com/track/3Qa944OTMZkg8DHjET8JQv?si=696ddb4a9daf4a67",
+    "https://open.spotify.com/track/19QKaApDINxlRSKX3w1xSB?si=c9229546c6334acb",
+    "https://open.spotify.com/track/4XDpeWqPADoWRKcUY3dC84?si=04e5e2519d52466c",
+    "https://open.spotify.com/track/47gzGfR4JfKC6aT5lM0wpn?si=0e1b348a726140d4",
+    'https://open.spotify.com/track/6BbAFjOCHA1AknMtIu3VjZ?si=8aea2fbe31c84d5e',
+                 "https://open.spotify.com/track/3d65swPOxko76ZQL5WEQfH?si=37614ad6886a4e54",
+                 "https://open.spotify.com/track/55jQMevNp7aWtiW5LPlPoa?si=1f0e24819e5e48b9",
+                 "https://open.spotify.com/track/0IpnZchq8ek2A6pGEP2Qb1?si=678492cafa964419",
+                 "https://open.spotify.com/track/01JMnRUs2YOK6DDpdQASGY?si=fb31acb7005141ec",
+                 "https://open.spotify.com/track/3yk7PJnryiJ8mAPqsrujzf?si=c2e7c1714e0048be",
+                 "https://open.spotify.com/track/1eUGmzzvahJjOSWgDHuRlv?si=6acaaa380516451f",
+                 "https://open.spotify.com/track/5fEB6ZmVkg63GZg9qO86jh?si=d702f883e6a74661",
+                 "https://open.spotify.com/track/4cEqoGTqPRZy76Yl3ymj3V?si=607505ce0fd74ab9",
+                 "https://open.spotify.com/track/5m0yZ33oOy0yYBtdTXuxQe?si=8b052f9f38154c31",
+                 "https://open.spotify.com/track/1Vp4St7JcXaUoJcIahtf3L?si=d98cb80a21c5487e",
+                 "https://open.spotify.com/track/2wAJTrFhCnQyNSD3oUgTZO?si=a3ab2a4160324e16",
+                 "https://open.spotify.com/track/3eekarcy7kvN4yt5ZFzltW?si=54306b352bad438c",
+                 "https://open.spotify.com/track/7nc7mlSdWYeFom84zZ8Wr8?si=ec12e794185a4c20",
+                 "https://open.spotify.com/track/5TxRUOsGeWeRl3xOML59Ai?si=bddb01a23e8d46aa",
+                 "https://open.spotify.com/track/44I7sqKYCAa7bQdVywkShO?si=24e88ed468cd44e1",
+                 "https://open.spotify.com/track/1nXZnTALNXiPlvXotqHm66?si=2a4f84e61d0c4b1b",
+                 "https://open.spotify.com/track/00imgaPlYRrMGn9o83hfmk?si=620b5c7eb048468d",
+                 "https://open.spotify.com/track/432hUIl3ISDeytYW5XBQ5h?si=eb0bcaba494a4a13",
+                 "https://open.spotify.com/track/7AzlLxHn24DxjgQX73F9fU?si=861375864d784288",
+                 "https://open.spotify.com/track/37Nqx7iavZpotJSDXZWbJ3?si=8ad80be899b34af0",
+                 "https://open.spotify.com/track/5yY9lUy8nbvjM1Uyo1Uqoc?si=728160360270434a",
+                 "https://open.spotify.com/track/5d8yMIlqJH78lwOUP7T3oF?si=8fedd201833b46d5",
+                 "https://open.spotify.com/track/05grSYrVwYw58YMOdJceyz?si=c715abc806c84c5b"
+                 ]
+names = [
+    "A1_Silk_Sonic_Intro_Analysis",
+    "A2_After_The_Storm_Analysis",
+    "B1_Woods_Mac_Miller_Analysis",
+    "B2_Alotta_Cake_Gunna",
+    "C1_November_Tyler_The_Creator",
+    "C2_03_Sainte",
+    "D1_Thru_My_Hair_Teo",
+    "D2_Screwed_Up_Teeze",
+    "E1_1997_Brock_Hampton",
+    "E2_Bean_Kobe_Uzi",
+    "F1_Grace_Lil_Baby",
+    "F2_Location_Playboi_Carti",
+    "G1_Girl_With_Tattoo_Miguel",
+    "G2_Break_From_Toronot_PartyNextDoor",
+    "H1_Only_One_Travis_Scott",
+    "H2_Low_Down_Lil_Baby",
+    "I1_The_New_Workout_Plan_Kanye",
+    "I2_Work_Out_Jcole",
+    "J1_Highest_In_The_Room_Travis_Scot", 
+    "J2_Tell_Em_Cochise",
+    "K1_Are_We_Still_Friends_Tyler_The_Creator",
+    "K2_Hurricane_Kanye",
+    "L1_A_Boy_Is_A_Gun_Tyler_The_Creator",
+    "L2_Loose_Change_Brent_Faiyaz",
+    "M1_Wolvez_Kanye",
+    "M2_No_Idea_Don_Toliver",
+    "N1_Girls_Want_Girls_Drake",
+    "N2_Life_Is_Good_Drake",
+    "O1_Real_Kendrick",
+    "O2_Patience_Lil_Uzi_Vert"]
+Dict_Names = {
+"A1_Silk_Sonic_Intro_Analysis": None,
+"A2_After_The_Storm_Analysis": None,
+"B1_Woods_Mac_Miller_Analysis": None,
+"B2_Alotta_Cake_Gunna": None,
+"C1_November_Tyler_The_Creator": None,
+"C2_03_Sainte": None,
+"D1_Thru_My_Hair_Teo": None,
+"D2_Screwed_Up_Teeze": None,
+"E1_1997_Brock_Hampton": None,
+"E2_Bean_Kobe_Uzi": None,
+"F1_Grace_Lil_Baby": None,
+"F2_Location_Playboi_Carti": None,
+"G1_Girl_With_Tattoo_Miguel": None,
+"G2_Break_From_Toronot_PartyNextDoor": None,
+"H1_Only_One_Travis_Scott": None,
+"H2_Low_Down_Lil_Baby": None,
+"I1_The_New_Workout_Plan_Kanye": None,
+"I2_Work_Out_Jcole": None,
+"J1_Highest_In_The_Room_Travis_Scot": None, 
+"J2_Tell_Em_Cochise": None,
+"K1_Are_We_Still_Friends_Tyler_The_Creator": None,
+"K2_Hurricane_Kanye": None,
+"L1_A_Boy_Is_A_Gun_Tyler_The_Creator": None,
+"L2_Loose_Change_Brent_Faiyaz": None,
+"M1_Wolvez_Kanye": None,
+"M2_No_Idea_Don_Toliver": None,
+"N1_Girls_Want_Girls_Drake": None,
+"N2_Life_Is_Good_Drake": None,
+"O1_Real_Kendrick": None,
+"O2_Patience_Lil_Uzi_Vert": None}
+store_open = []
+for h in range(29):
+    if h % 2 == 0:
+        store_new = tensor_creator(good_transitions[h], good_transitions[h+1])
+        store_new.make_tensor()
+        store_check = store_new.segment_analyzer()
+        Dict_Names[names[h]] = store_check
+        if h == 28:
+            Dict_Names[names[h+1]] = Dict_Names[names[h]]
+    else:
+        Dict_Names[names[h]] = Dict_Names[names[h-1]]
+running_db = pd.DataFrame(Dict_Names)
+
+        
+    
+    
+    
+    
+    
