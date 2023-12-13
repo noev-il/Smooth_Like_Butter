@@ -8,7 +8,7 @@ Spotify Project - Allow Users to
 
 Project Tools = 
 Code Set: Python, SQL (Data Storage), JSON (Porting)
-Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons), Librosa (Spectogram), Pandas (Data Analysis)
+Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons), Librosa (Spectogram), Pandas (Data Analysis), JSON (Manaing Data).
 
 
 +Journal Entry 08/16/2023
@@ -51,3 +51,13 @@ Databases: Seaborn (Data Viz), Matplot (Data Viz), SciPy (Algorithm/Comparisons)
 -Create a individualzed way to grab columbs within the 'section' tabe and create tensors
 -PYTORCH, SKLEARN, PANDAS, NUMPY, all were used
 Files have been pushed to github.
+
++Journal Entry 12/13/2023
+-Project has moved into the testing phase
+-Operating Fuctions - Take two spotify urls, calls for spotify audio analysis, creates tensors of meaningful data points, compares euclidean distance of two songs tensors, returns a 3 dimensional rating of the segment, pitches, and timbres euclidean distance.
+
+-All within a python class called tensor_creator()
+
+The next stage is to move to a linear regression machine learning model using scikit learn. I will need to label good and bad transitions. I have a currently library with 30+ songs that transition well into each other, 15 pairs in total. I need to prepare a test data set to test my models performance. 
+
+
