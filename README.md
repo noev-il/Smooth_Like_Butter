@@ -64,4 +64,7 @@ The next stage is to move to a linear regression machine learning model using sc
 -Scikit Learn Model: Random Forest Classifer
 -Early tests on the model show progress, accuracy score of 1 on a data set of 6 total songs and 3 pairs. Accuracy score represents ability to decide if it is a "smooth" transition or a "bad" one. The model had 100% accuracy on the small test.
 -Created a document with 100 different pairs of songs from the Top 100 Rap Songs. Model will be tested on the desktop PC to take advantage of CUDA cores on my NVIDIA GTX 970 MSI graphics card.
--Next steps are focused on refining my model. 
+-Next steps are focused on refining my model.
+
++Journal Entry 1/11/2024 -
+-Inside For Loop for Massive Test that Makes Tensor include print(predictor) for one pair so progress can be tracked. 
