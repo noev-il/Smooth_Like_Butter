@@ -28,4 +28,3 @@
 - **11/22/2023**: Enhanced code for user input and JSON analysis.
 - **12/10/2023**: Implemented tensor creation and comparison.
 - **12/21/2023**: Tested Random Forest model with promising early results.
-```
