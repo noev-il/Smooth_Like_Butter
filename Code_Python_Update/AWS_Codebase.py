@@ -293,6 +293,19 @@ for k in range(len(names)):
     else:
         None
 
+bad_1 = tensor_creator('https://open.spotify.com/track/2FDTHlrBguDzQkp7PVj16Q?si=3ad17825b4774244', 'https://open.spotify.com/track/09FcXaLu1BdrRNgxyBi6p5?si=4b41dfb40c174e38')
+numpy_arrays.append(bad_1.create_and_analyze())
+bad_2 = tensor_creator('https://open.spotify.com/track/0XqCWpRB3DLSy0l9bFQ15A?si=4ebc0d0bb4b3446c', 'https://open.spotify.com/track/0WCbhE2evMrIwRM0DlMy9k?si=389f63f89d194583')
+numpy_arrays.append(bad_2.create_and_analyze())
+bad_3 = tensor_creator('https://open.spotify.com/track/71SbmXsy5H0bqxJAVBcfsG?si=7692e0d63eea456e', 'https://open.spotify.com/track/7uHF03xE84sQ5PicRNH3yu?si=d8903751e6be4e22')
+numpy_arrays.append(bad_3.create_and_analyze())
+bad_4 = tensor_creator('https://open.spotify.com/track/7KVPsVMOK3NL7subwJ0dZj?si=46893e8879074917', 'https://open.spotify.com/track/1chxfk33LoVOznJiJ0WWPD?si=da93686c079e4d0c')
+numpy_arrays.append(bad_4.create_and_analyze())
+bad_5 = tensor_creator('https://open.spotify.com/track/421r1p6Uzy72gSOyWHpmdA?si=af4d8c4f6077495e', 'https://open.spotify.com/track/2OaKHGvIxoOzIYjyMsxcT8?si=1b22b0e0a99a4f14')
+numpy_arrays.append(bad_5.create_and_analyze())
+y_train = ['smooth'] * 15
+y_train += ['bad'] * 5
+
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(numpy_arrays, y_train)
 
@@ -307,7 +320,7 @@ def lambda_handler(event, context):
         url_2 = body['url_2']
         
         # Create tensor and analyze
-        creator = TensorCreator(url_1, url_2)
+        creator = tensor_creator(url_1, url_2)
         analysis_result = creator.create_and_analyze()
         
         # Load the pre-trained model from S3
