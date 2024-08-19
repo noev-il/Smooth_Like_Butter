@@ -4,7 +4,7 @@ import base64
 import requests
 import pandas as pd
 import torch
-import boto3
+# import boto3
 import pickle
 import json
 import logging
@@ -13,7 +13,7 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-s3_client = boto3.client('s3')
+# s3_client = boto3.client('s3')
 
 
 class tensor_creator:
@@ -309,46 +309,48 @@ y_train += ['bad'] * 5
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(numpy_arrays, y_train)
 
+test = tensor_creator('https://open.spotify.com/track/6BquHLBPxtDrkqfP3GhLT5?si=f2c295a246d149ac', 'https://open.spotify.com/track/5RlDYfphEpQaft5JDQfQko?si=679e133939cf422b')
+test = [test.create_and_analyze()]
+print(clf.predict(test))
 
 
+# def lambda_handler(event, context):
+#     try:
+#         logger.info("Event: %s", event)
+#         body = json.loads(event['body'])
+#         url_1 = body['url_1']
+#         url_2 = body['url_2']
+        
+#         # Create tensor and analyze
+#         creator = tensor_creator(url_1, url_2)
+#         analysis_result = creator.create_and_analyze()
+        
+#         # Load the pre-trained model from S3
+#         model = load_model_from_s3('slb-model-bucket', 'slb_model.pkl')
+        
+#         # Prediction
+#         prediction = model.predict([analysis_result])
+        
+#         return {
+#             'statusCode': 200,
+#             'body': json.dumps({'prediction': prediction.tolist()})
+#         }
+#     except Exception as e:
+#         return {
+#             'statusCode': 500,
+#             'body': json.dumps({'error': str(e)})
+#         }
 
-def lambda_handler(event, context):
-    try:
-        logger.info("Event: %s", event)
-        body = json.loads(event['body'])
-        url_1 = body['url_1']
-        url_2 = body['url_2']
+# def load_model_from_s3(bucket_name, model_file_key):
+#     try:
+#         # Download model file from S3
+#         s3_client.download_file(bucket_name, model_file_key, '/tmp/your_model.pkl')
         
-        # Create tensor and analyze
-        creator = tensor_creator(url_1, url_2)
-        analysis_result = creator.create_and_analyze()
-        
-        # Load the pre-trained model from S3
-        model = load_model_from_s3('slb-model-bucket', 'slb_model.pkl')
-        
-        # Prediction
-        prediction = model.predict([analysis_result])
-        
-        return {
-            'statusCode': 200,
-            'body': json.dumps({'prediction': prediction.tolist()})
-        }
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
-        }
-
-def load_model_from_s3(bucket_name, model_file_key):
-    try:
-        # Download model file from S3
-        s3_client.download_file(bucket_name, model_file_key, '/tmp/your_model.pkl')
-        
-        # Load the model
-        with open('/tmp/your_model.pkl', 'rb') as model_file:
-            model = pickle.load(model_file)
-        return model
-    except Exception as e:
-        logger.error("Error loading model from S3: %s", e, exc_info=True)
-        raise
+#         # Load the model
+#         with open('/tmp/your_model.pkl', 'rb') as model_file:
+#             model = pickle.load(model_file)
+#         return model
+#     except Exception as e:
+#         logger.error("Error loading model from S3: %s", e, exc_info=True)
+#         raise
 
