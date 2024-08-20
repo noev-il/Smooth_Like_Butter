@@ -9,9 +9,9 @@ import pickle
 import json
 import logging
 
-# Initialize logger
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+# # Initialize logger
+# logger = logging.getLogger()
+# logger.setLevel(logging.INFO)
 
 # s3_client = boto3.client('s3')
 
