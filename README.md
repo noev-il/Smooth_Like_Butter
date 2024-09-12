@@ -14,10 +14,10 @@
 
 ## Tools and Technologies
 
-- **Languages**: Python, SQL
+- **Languages**: Python
 - **Data Management**: JSON
 - **Visualization**: Seaborn, Matplotlib
-- **Analysis**: SciPy, Librosa, Pandas
+- **Analysis**: SciKitLearn, Pandas
 
 ## Development Timeline
 
