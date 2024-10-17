@@ -145,7 +145,8 @@ class tensor_creator:
 
     def create_and_analyze(self):
         self._make_tensor()
-        return self._segment_analyzer()
+        distance_features = self._segment_analyzer()
+        weight = sum(distance_features) / len(distance_features)  # Simple average for weight
 
 
 good_transitions = [
