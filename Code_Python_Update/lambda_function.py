@@ -4,22 +4,12 @@ import base64
 import requests
 import pandas as pd
 import torch
-# import boto3
-import pickle
-import json
-import logging
-
-# # Initialize logger
-# logger = logging.getLogger()
-# logger.setLevel(logging.INFO)
-
-# s3_client = boto3.client('s3')
-
+import os
 
 class tensor_creator:
     def __init__(self, url_1, url_2):
-        self.client_id = "76915a0c79a34e108e08ab4ca0e2605f"
-        self.client_secret = "f30900615bad41d0ae950d4e2ad72668"
+        self.client_id = os.environ.get('CLIENT_ID')
+        self.client_secret = os.environ.get('CLIENT_SECRET')
         self.access_token = None
         api_token = "https://accounts.spotify.com/api/token"
         auth_string = f'{self.client_id}:{self.client_secret}'
@@ -36,6 +26,7 @@ class tensor_creator:
         self.access_token = token_response_data.get('access_token')
         self.url_1 = url_1[31:]
         self.url_2 = url_2[31:]
+        self.create_and_analyze()
 
     def get_track_analysis(self, song_id):
         token_live = self.access_token
@@ -146,8 +137,9 @@ class tensor_creator:
     def create_and_analyze(self):
         self._make_tensor()
         distance_features = self._segment_analyzer()
-        weight = sum(distance_features) / len(distance_features)  # Simple average for weight
-
+        # weight = sum(distance_features) / len(distance_features)  # Simple average for weight
+        # return weight
+        return distance_features
 
 good_transitions = [
     "https://open.spotify.com/track/"
@@ -313,45 +305,4 @@ clf.fit(numpy_arrays, y_train)
 test = tensor_creator('https://open.spotify.com/track/6BquHLBPxtDrkqfP3GhLT5?si=f2c295a246d149ac', 'https://open.spotify.com/track/5RlDYfphEpQaft5JDQfQko?si=679e133939cf422b')
 test = [test.create_and_analyze()]
 print(clf.predict(test))
-
-
-# def lambda_handler(event, context):
-#     try:
-#         logger.info("Event: %s", event)
-#         body = json.loads(event['body'])
-#         url_1 = body['url_1']
-#         url_2 = body['url_2']
-        
-#         # Create tensor and analyze
-#         creator = tensor_creator(url_1, url_2)
-#         analysis_result = creator.create_and_analyze()
-        
-#         # Load the pre-trained model from S3
-#         model = load_model_from_s3('slb-model-bucket', 'slb_model.pkl')
-        
-#         # Prediction
-#         prediction = model.predict([analysis_result])
-        
-#         return {
-#             'statusCode': 200,
-#             'body': json.dumps({'prediction': prediction.tolist()})
-#         }
-#     except Exception as e:
-#         return {
-#             'statusCode': 500,
-#             'body': json.dumps({'error': str(e)})
-#         }
-
-# def load_model_from_s3(bucket_name, model_file_key):
-#     try:
-#         # Download model file from S3
-#         s3_client.download_file(bucket_name, model_file_key, '/tmp/your_model.pkl')
-        
-#         # Load the model
-#         with open('/tmp/your_model.pkl', 'rb') as model_file:
-#             model = pickle.load(model_file)
-#         return model
-#     except Exception as e:
-#         logger.error("Error loading model from S3: %s", e, exc_info=True)
-#         raise
 
