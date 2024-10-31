@@ -11,6 +11,11 @@ class tensor_creator:
         self.client_id = os.environ.get('CLIENT_ID')
         self.client_secret = os.environ.get('CLIENT_SECRET')
         self.access_token = None
+
+        if not self.client_id or not self.client_secret:
+            raise ValueError("CLIENT_ID and CLIENT_SECRET must be set in environment variables.")
+        
+        
         api_token = "https://accounts.spotify.com/api/token"
         auth_string = f'{self.client_id}:{self.client_secret}'
         auth_base64 = base64.b64encode(auth_string.encode()).decode('ascii')
