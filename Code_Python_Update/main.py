@@ -50,7 +50,7 @@ class tensor_creator:
         else:
             pass
 
-    def _make_tensor(self):
+    def _make_tensor(self): # Loudness, Tempo, Key, Mode Distance
         self.analysis_1 = self.get_track_analysis(self.url_1)
         self.analysis_2 = self.get_track_analysis(self.url_2)
         track_1 = self.analysis_1
@@ -101,7 +101,7 @@ class tensor_creator:
         distanceA1_A2 = torch.sqrt(torch.sum(torch.pow(torch.subtract(Song_Tensor[-1], Song_Tensor_1[0]), 2), dim=0))
         self.distanceA1_A2 = (distanceA1_A2)
 
-    def _segment_analyzer(self):
+    def _segment_analyzer(self): # Euclidean Distace for Pitches and Timbre
         segment_1 = self.analysis_1['segments']
         segment_2 = self.analysis_2['segments']
 
