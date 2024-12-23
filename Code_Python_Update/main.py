@@ -19,6 +19,8 @@ class tensor_creator:
         api_token = "https://accounts.spotify.com/api/token"
         auth_string = f'{self.client_id}:{self.client_secret}'
         auth_base64 = base64.b64encode(auth_string.encode()).decode('ascii')
+        print(f"Auth Base64: {auth_base64}")
+
         token_data = {
             "grant_type": "client_credentials"
         }
@@ -35,6 +37,7 @@ class tensor_creator:
 
     def get_track_analysis(self, song_id):
         token_live = self.access_token
+
         if token_live:
             api_token = f"https://api.spotify.com/v1/audio-analysis/{song_id}"
             header_1 = {
@@ -301,7 +304,7 @@ bad_4 = tensor_creator('https://open.spotify.com/track/7KVPsVMOK3NL7subwJ0dZj?si
 numpy_arrays.append(bad_4.create_and_analyze())
 bad_5 = tensor_creator('https://open.spotify.com/track/421r1p6Uzy72gSOyWHpmdA?si=af4d8c4f6077495e', 'https://open.spotify.com/track/2OaKHGvIxoOzIYjyMsxcT8?si=1b22b0e0a99a4f14')
 numpy_arrays.append(bad_5.create_and_analyze())
-y_train = ['smooth'] * 15
+y_train = ['smooth'] * 14
 y_train += ['bad'] * 5
 
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
