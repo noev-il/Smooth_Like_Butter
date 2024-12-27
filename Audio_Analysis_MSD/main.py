@@ -3,24 +3,50 @@ import numpy as np
 import pandas as pd
 import os
 import json
-#test
-pass
+
 # Open the HDF5 file
 h5_file = h5py.File('/Users/aux/Downloads/Mac_Storage/Smooth_Like_Butter/Audio_Analysis_MSD/MillionSongSubset/A/A/A/TRAAAAW128F429D538.h5', 'r')
-with h5_file as f:
-    print("==================================================================================================================================================================")
-    print(f"High level options: {list(f.keys())}")
-
+with h5_file as f: #loudness, tempo, key, mode, pitch, timbre
     analysis = f['analysis']
-    print(f"Analysis option: {list(analysis.keys())}", f"{analysis['bars_confidence']}")
-
     metadata = f['metadata']
-    print(f"Metadata option: {list(metadata.keys())}")
 
-    song_title = f['metadata']['songs'][0][b'title'.decode('utf-8')].decode('utf-8')
-    print("Song Title:", song_title)
+    # Song-level details
+    song_details = {
+        "title": metadata['songs'][0][b'title'.decode('utf-8')].decode('utf-8'),
+        "loudness": analysis['songs'][0][b'loudness'.decode('utf-8')][()].item(),
+        "tempo": analysis['songs'][0][b'tempo'.decode('utf-8')][()].item(),
+        "key": analysis['songs'][0][b'key'.decode('utf-8')][()].item(),
+        "mode": analysis['songs'][0][b'mode'.decode('utf-8')][()].item(),
+    }
 
+    # Extract segment start times
+    segment_starts = analysis['segments_start'][:]
+    pitches = analysis['segments_pitches'][:]
+    timbres = analysis['segments_timbre'][:]
 
+    # Find segments in the last 4 seconds
+    duration = analysis['songs'][0][b'duration'.decode('utf-8')].item()  # Total song duration
+    last_4_seconds = duration - 4
+
+    # Filter segments starting in the last 4 seconds
+    last_segments = [i for i, t in enumerate(segment_starts) if t >= last_4_seconds]
+
+    # Extract features for the last 4 seconds
+    last_4_features = []
+    for idx in last_segments:
+        last_4_features.append({
+            "start": segment_starts[idx],
+            "pitch": list(pitches[idx]),
+            "timbre": list(timbres[idx])
+        })
+
+    # Combine all data
+    result = {
+        "song_details": song_details,
+        "last_4_seconds": last_4_features
+    }
+
+    print(result)
     musicbrainz = f['musicbrainz']
     print(f"Musicbrainz option: {list(musicbrainz.keys())}")
 
@@ -54,7 +80,7 @@ def process_folder(folder_path):
         json.dump(song_dict, jsonfile, indent=4, ensure_ascii=False)
 
 MSD_path = '/Users/aux/Downloads/Mac_Storage/Smooth_Like_Butter/Audio_Analysis_MSD/MillionSongSubset'
-intialization = process_folder(MSD_path)
+#intialization = process_folder(MSD_path)
 
 
 
